@@ -10,11 +10,19 @@ class Animal:
     Базовый класс для всех животных.
     Содержит общие атрибуты и методы.
     """
+    animal_id = 1
+
     def __init__(self, species: str, name: str, age: int, sound: str=''):
+        self.id = Animal.animal_id
+        Animal.animal_id += 1
         self.species = species
         self.name = name
         self.age = age
         self.sound = sound
+
+    def __str__(self):
+        return f'ID: {self.id} | {self.species} - {self.name}, возраст: {self.age}'
+
 
     def display_info(self):
         raise NotImplementedError('Subclasses should implement this method')
@@ -39,7 +47,7 @@ class Bird(Animal):
 
     def display_info(self):
         print(f'Птичка - {self.species} по имени {self.name}.\n'
-              f'Возраст: {self.age}. '
+              f'ID: {self.id}. Возраст: {self.age}. '
               f'Поёт: {self.sound if self.sound else "ничего не поёт"}. Размах крыльев = {self.wingspan} см.')
 
     def make_sound(self):
@@ -58,9 +66,9 @@ class Mammal(Animal):
         self.aquatic = aquatic
 
     def display_info(self):
-        print(f'Животное - {self.species} по имени {self.name}.'
-              f'{"Водное." if self.aquatic else "Не водное."}\n'
-              f'Возраст: {self.age}. Ест {self.food}.\n'
+        print(f'Животное - {self.species} по имени {self.name}.\n'
+              f'ID: {self.id}. {"Водное." if self.aquatic else "Не водное."}\n'
+              f'Возраст: {self.age}. Ест {self.food}. '
               f'Говорит: {self.sound if self.sound else "ничего не говорит"}.')
     def make_sound(self):
         print(self.species, self.name, 'говорит:')
@@ -83,8 +91,8 @@ class Reptile(Animal):
 
     def display_info(self):
         print(f'Рептилия - {self.species} по имени {self.name}.\n'
-              f'Среда обитания: {self.habitat}\n'
-              f'Возраст: {self.age}. Ест {self.food}.\n'
+              f'ID: {self.id}. Среда обитания: {self.habitat}\n'
+              f'Возраст: {self.age}. Ест {self.food}. '
               f'Говорит: {self.sound if self.sound else "ничего не говорит"}.')
     def make_sound(self):
         print(self.species, self.name, 'говорит:')
@@ -102,6 +110,7 @@ def animal_sound(animals):
 def test_animals():
     print('Птички:')
     parrot = Bird('Попугай', 'Mark', 10, 110.5)
+    print(parrot)
     crow = Bird('Ворона', 'Мила', '5.3', 70, 'Кааарррр')
     test_bird1 = Bird('test', 'Test1-age', 'one', '10.13', 'ррр')
     test_bird2 = Bird('test', 'Test2-wings', 13.1, None, 'ррр2')
@@ -130,6 +139,7 @@ def test_animals():
                     True, 'мышек', 'шшш-шш')
     turtle = Reptile('Черепаха', 'Глаша', 10.111,
                      'полуводная', False, 'овощи')
+    print(turtle)
     print('info:')
     snake.display_info()
     turtle.display_info()
